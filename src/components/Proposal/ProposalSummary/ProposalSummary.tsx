@@ -1,4 +1,4 @@
-import { IDAOState, AnyProposal, IContributionRewardProposalState, IGenericPluginProposalState, ISchemeRegistrarProposalState, IProposalState, Proposal } from "@daostack/arc.js";
+import { IDAOState, AnyProposal, IContributionRewardProposalState, IGenericPluginProposalState, ISchemeRegistrarProposalState, IProposalState, Proposal, IPluginManagerProposalState } from "@daostack/arc.js";
 import classNames from "classnames";
 import { GenericPluginRegistry } from "genericPluginRegistry";
 import * as React from "react";
@@ -7,6 +7,7 @@ import * as css from "./ProposalSummary.scss";
 import ProposalSummaryContributionReward from "./ProposalSummaryContributionReward";
 import ProposalSummaryKnownGenericPlugin from "./ProposalSummaryKnownGenericPlugin";
 import ProposalSummaryPluginRegistrar from "./ProposalSummaryPluginRegistrar";
+import ProposalSummaryPluginFactory from "./ProposalSummaryPluginFactory";
 import ProposalSummaryUnknownGenericPlugin from "./ProposalSummaryUnknownGenericPlugin";
 import { getArc } from "arc";
 
@@ -47,6 +48,9 @@ export default class ProposalSummary extends React.Component<IProps, IState> {
     } else if (proposal.coreState.name.includes("SchemeRegistrar")) {
       const state = proposal.coreState as ISchemeRegistrarProposalState;
       return <ProposalSummaryPluginRegistrar {...this.props} proposalState={state} />;
+    } else if (proposal.coreState.name.includes("SchemeFactory")) {
+      const state = proposal.coreState as IPluginManagerProposalState;
+      return <ProposalSummaryPluginFactory {...this.props} proposalState={state} />;
     } else if (proposal.coreState.name === "GenericScheme") {
       const state = proposal.coreState as IGenericPluginProposalState;
       const genericPluginRegistry = new GenericPluginRegistry();
